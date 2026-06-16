@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚠️ ¡SISTEMA CIFRADO! ⚠️</title>
+    <style>
+        body {
+            background-color: #7a0000;
+            color: #ffffff;
+            font-family: 'Courier New', Courier, monospace;
+            text-align: center;
+            padding: 50px 20px;
+            margin: 0;
+            overflow: hidden;
+            user-select: none; /* Evita que anden copiando texto fácilmente */
+        }
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background-color: #000000;
+            border: 4px solid #ff0000;
+            padding: 30px;
+            box-shadow: 0 0 20px #ff0000;
+            border-radius: 10px;
+            transition: all 0.5s ease;
+        }
+        h1 {
+            color: #ff0000;
+            font-size: 35px;
+            margin-top: 0;
+            animation: blink 1.5s infinite;
+        }
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+        .timer {
+            font-size: 48px;
+            color: #ffcc00;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .input-box {
+            margin-top: 30px;
+        }
+        input[type="text"] {
+            background-color: #222;
+            border: 2px solid #ff0000;
+            color: #00ff00;
+            padding: 10px;
+            font-size: 18px;
+            width: 80%;
+            text-align: center;
+            font-family: inherit;
+            outline: none;
+        }
+        button {
+            background-color: #ff0000;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            font-family: inherit;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #b30000;
+        }
+        
+        /* Contenedor de la FLAG (inicialmente oculto) */
+        .success-flag-zone {
+            display: none;
+            margin-top: 25px;
+            background-color: #022c22;
+            border: 2px solid #059669;
+            padding: 15px;
+            border-radius: 6px;
+            color: #34d399;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body oncontextmenu="return false">
+
+    <div class="container" id="ransomBox">
+        <h1 id="mainTitle">⚠️ ¡TUS ARCHIVOS HAN SIDO CIFRADOS! ⚠️</h1>
+        
+        <div id="threatTexts">
+            <p>Soy <strong>Crypt0M4st3r</strong>. Todos tus trabajos de clase, fotos y partidas guardadas han sido bloqueados con un algoritmo militar.</p>
+            <p>Tienes un tiempo límite para introducir la clave de descifrado antes de que se destruya la llave:</p>
+        </div>
+        
+        <div class="timer" id="countdown">10:00</div>
+
+        <div class="input-box" id="interactionZone">
+            <p>Introduce la CLAVE DE RESCATE (Proceso Malicioso):</p>
+            <input type="text" id="flagInput" placeholder="ejemplo.exe" autocomplete="off">
+            <br>
+            <button type="button" onclick="checkFlag()">DESCIFRAR ARCHIVOS</button>
+        </div>
+
+        <div class="success-flag-zone" id="flagZone">
+            <strong>🔓 ¡SISTEMA RECUPERADO!</strong><br>
+            Introduce esta clave en la plataforma del CTF para reclamar tus puntos:<br>
+            <span style="color: #ffcc00; font-size: 20px; font-weight: bold; display:block; margin-top:10px;" id="flagContainer"></span>
+        </div>
+    </div>
+
+    <script>
+        // Cuenta atrás simulada (10 minutos)
+        let time = 600;
+        let timerActive = true;
+        const timerElement = document.getElementById('countdown');
+        
+        const interval = setInterval(() => {
+            if (!timerActive) {
+                clearInterval(interval);
+                return;
+            }
+            if (time > 0) {
+                time--;
+                let minutes = Math.floor(time / 60);
+                let seconds = time % 60;
+                timerElement.innerText = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            } else {
+                timerElement.innerText = "¡TIEMPO AGOTADO!";
+                timerElement.style.color = "red";
+            }
+        }, 1000);
+
+        function checkFlag() {
+            // Recogemos el texto, quitamos espacios y pasamos a minúsculas limpias
+            const input = document.getElementById('flagInput').value.replace(/\s+/g, '').toLowerCase();
+            
+            // Validación por propiedades del texto para engañar al F12 por completo
+            if (input.length === 13 && input.startsWith("te") && input.endsWith("xe") && input.includes("crypt")) {
+                
+                timerActive = false; // Detener el reloj
+                
+                // Cambiar interfaz a verde de éxito
+                document.body.style.backgroundColor = "#004d00";
+                document.getElementById('ransomBox').style.borderColor = "#00ff00";
+                document.getElementById('ransomBox').style.boxShadow = "0 0 20px #00ff00";
+                
+                // Cambiamos el título principal
+                const title = document.getElementById('mainTitle');
+                title.innerText = "✅ ¡ANÁLISIS FORENSE COMPLETADO!";
+                title.style.color = "#00ff00";
+                title.style.animation = "none";
+                
+                // NUEVO: Quitamos el texto del hacker y ponemos uno de felicitación
+                document.getElementById('threatTexts').innerHTML = 
+                    "<p style='color: #34d399;'>El proceso malicioso ha sido destruido en memoria y el disco duro se ha descifrado correctamente. Todos los datos están a salvo.</p>";
+                
+                timerElement.style.color = "#00ff00";
+                timerElement.innerText = "ESTADO: SEGURO";
+
+                // Esconder la casilla de entrada y mostrar la FLAG liberada
+                document.getElementById('interactionZone').style.display = 'none';
+                
+                // Pintamos la flag directamente
+                document.getElementById('flagContainer').innerText = "FLAG{R4NS0MW4R3_D3T3CT3D}";
+                document.getElementById('flagZone').style.display = 'block';
+
+                alert("🔓 ¡ENHORABUENA! Sistema descifrado con éxito. Has salvado tus datos.");
+            } else {
+                alert("❌ Clave incorrecta. Los archivos siguen cifrados.");
+            }
+        }
+
+        // Bloqueo total de herramientas de desarrollador comunes
+        document.onkeydown = function(e) {
+            if (e.keyCode == 123) return false;
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
+            if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
+        }
+    </script>
+</body>
+</html>
