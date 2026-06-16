@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💻 PANEL DE INTERCEPTACIÓN DNS</title>
+    <style>
+        body {
+            background-color: #0a0f1d;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 30px;
+            text-align: center;
+            user-select: none; /* Evita copias rápidas de texto */
+        }
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            background-color: #111827;
+            border: 2px solid #374151;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+        }
+        h1 { color: #38bdf8; font-size: 24px; margin-bottom: 25px; }
+        
+        /* Mapa visual de la red */
+        .network-map {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: #030712;
+            padding: 40px 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border: 1px solid #1f2937;
+        }
+        .node {
+            padding: 15px;
+            background-color: #1f2937;
+            border: 2px solid #4b5563;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: bold;
+            width: 140px;
+            transition: all 0.3s ease;
+        }
+        .node.active { border-color: #38bdf8; box-shadow: 0 0 15px rgba(56, 189, 248, 0.4); }
+        .node.hacker { border-color: #ef4444; color: #ef4444; }
+        .node.success { border-color: #10b981; color: #10b981; box-shadow: 0 0 15px rgba(16, 185, 129, 0.5); }
+
+        /* Cables de conexión */
+        .connection-line {
+            height: 6px;
+            background-color: #374151;
+            flex-grow: 1;
+            margin: 0 -5px;
+            transition: all 0.3s ease;
+        }
+        .line-blue { background-color: #38bdf8; box-shadow: 0 0 10px #38bdf8; }
+        .line-red { background-color: #ef4444; box-shadow: 0 0 10px #ef4444; }
+        .line-broken { background-color: #4b5563; border-top: 2px dashed #ff3333; }
+
+        .control-panel {
+            background-color: #1f2937;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .router-button {
+            background-color: #374151;
+            color: white;
+            border: 2px solid #4b5563;
+            padding: 12px 15px;
+            margin: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 13px;
+            width: 160px;
+            transition: all 0.2s;
+        }
+        .router-button.selected {
+            background-color: #38bdf8;
+            color: #000;
+            border-color: #ffffff;
+        }
+
+        .status-text {
+            font-family: monospace;
+            margin: 15px 0;
+            color: #9ca3af;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+        
+        .success-box {
+            display: none;
+            background-color: #064e3b;
+            border: 2px solid #10b981;
+            padding: 20px;
+            border-radius: 6px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body oncontextmenu="return false">
+
+    <div class="container">
+        <h1>[SPOOFING LAB: INTERCEPTACIÓN DE ENLACES]</h1>
+        
+        <div class="network-map">
+            <div class="node active">💻<br>PC Profesor</div>
+            <div class="connection-line line-blue" id="lineA"></div>
+            <div class="node active">⚙️<br>Servidor DNS</div>
+            <div class="connection-line line-blue" id="lineB"></div>
+            
+            <div style="display: flex; flex-direction: column; gap: 25px;">
+                <div class="node success" id="nodeWeb">🌐<br>Web Instituto</div>
+                <div class="node hacker" id="nodeHacker">🥷<br>Nodo Hacker</div>
+            </div>
+        </div>
+
+        <div class="status-text" id="statusMessage">[MONITOR DE TRÁFICO: CONEXIÓN EN CURSO]</div>
+
+        <div class="control-panel" id="panelArea">
+            <p id="instructionText" style="font-size: 13px; color: #a1a1aa; margin-bottom: 20px;">
+                Configura el desvío de tráfico activando exactamente: <br>
+                <strong>La infraestructura física de red cableada local del centro</strong> + <br>
+                <strong>El protocolo global de navegación web segura y cifrada</strong>.
+            </p>
+            
+            <button class="router-button" id="btn_0" onclick="togglePuerto(0)">HDMI</button>
+            <button class="router-button" id="btn_1" onclick="togglePuerto(1)">HTTP</button>
+            <button class="router-button" id="btn_2" onclick="togglePuerto(2)">ETHERNET</button>
+            <br>
+            <button class="router-button" id="btn_3" onclick="togglePuerto(3)">BLUETOOTH</button>
+            <button class="router-button" id="btn_4" onclick="togglePuerto(4)">HTTPS</button>
+            <button class="router-button" id="btn_5" onclick="togglePuerto(5)">FTP</button>
+            <br>
+            <button class="router-button" id="btn_6" onclick="togglePuerto(6)">WI-FI</button>
+            <button class="router-button" id="btn_7" onclick="togglePuerto(7)">JACK AUDIO</button>
+            <button class="router-button" id="btn_8" onclick="togglePuerto(8)">USB-C</button>
+        </div>
+
+        <div class="success-box" id="successCard">
+            <h2>☠️ ¡SPOOFING CON ÉXITO! ☠️</h2>
+            <p>El mapa de red se ha desviado hacia tu posición. Has interceptado las peticiones DNS aplicando los estándares de red correctos.</p>
+            <p style="color: #ffcc00; font-size: 22px; font-family: monospace;">Recupera tu bandera para el CTF: <strong id="flagContainer"></strong></p>
+        </div>
+    </div>
+
+    <script>
+        // Bloqueo de herramientas de desarrollador comunes
+        document.onkeydown = function(e) {
+            if (e.keyCode == 123) return false;
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
+            if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
+        }
+
+        // Matriz de estados booleanos
+        let estados = [false, false, false, false, false, false, false, false, false];
+
+        function togglePuerto(idx) {
+            estados[idx] = !estados[idx];
+            const btn = document.getElementById('btn_' + idx);
+            
+            if (estados[idx]) btn.classList.add('selected');
+            else btn.classList.remove('selected');
+            
+            actualizarMapa();
+        }
+
+        function actualizarMapa() {
+            const lineA = document.getElementById('lineA');
+            const lineB = document.getElementById('lineB');
+            const nodeWeb = document.getElementById('nodeWeb');
+            const nodeHacker = document.getElementById('nodeHacker');
+            const status = document.getElementById('statusMessage');
+            const successCard = document.getElementById('successCard');
+
+            let totalPulsados = estados.filter(v => v).length;
+
+            // 1. ANTITRAMPAS: Más de 2 botones = Sobrecarga inmediata
+            if (totalPulsados > 2) {
+                lineA.className = "connection-line line-broken";
+                lineB.className = "connection-line line-broken";
+                nodeWeb.className = "node";
+                nodeHacker.className = "node hacker";
+                status.innerText = "[ALERTA: SOBRECARGA EN EL ROUTER - CANALES BLOQUEADOS]";
+                status.style.color = "#ff3333";
+                successCard.style.display = "none";
+                return;
+            }
+
+            status.innerText = "[MONITOR DE TRÁFICO: CONEXIÓN EN CURSO]";
+            status.style.color = "#9ca3af";
+
+            
+            if (estados[2] && estados[4] && totalPulsados === 2) {
+                lineA.className = "connection-line line-red";
+                lineB.className = "connection-line line-red";
+                nodeWeb.className = "node";
+                nodeHacker.className = "node success";
+                status.innerText = "[MONITOR: RED SUPLANTADA CON ÉXITO]";
+                status.style.color = "#10b981";
+                
+                // Ocultar texto de instrucciones para limpiar la pantalla
+                document.getElementById('instructionText').style.display = "none";
+
+                // Reconstrucción dinámica y oculta de la bandera: 
+                let c = [70,76,65,71,123,83,80,79,79,70,73,78,71,125];
+                let f = "";
+                for(let i=0; i<c.length; i++) { f += String.fromCharCode(c[i]); }
+                
+                document.getElementById('flagContainer').innerText = f;
+                successCard.style.display = "block";
+            }
+            // 3. ESTADO POR DEFECTO: Todo limpio
+            else if (totalPulsados === 0) {
+                lineA.className = "connection-line line-blue";
+                lineB.className = "connection-line line-blue";
+                nodeWeb.className = "node success";
+                nodeHacker.className = "node hacker";
+                successCard.style.display = "none";
+                document.getElementById('instructionText').style.display = "block";
+            }
+            // 4. ESTADO DE ESPERA INCIERTO (Sin pistas)
+            else {
+                lineA.className = "connection-line";
+                lineB.className = "connection-line";
+                nodeWeb.className = "node";
+                nodeHacker.className = "node hacker";
+                successCard.style.display = "none";
+                document.getElementById('instructionText').style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>
