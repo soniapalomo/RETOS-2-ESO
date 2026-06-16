@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🕵️ RETO 4: CONSOLA FORENSE PROTEGIDA</title>
+    <style>
+        body {
+            background-color: #030712;
+            color: #38bdf8;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1150px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            gap: 20px;
+        }
+        h1 { grid-column: 1 / -1; color: #ffffff; font-size: 22px; text-align: center; margin-bottom: 5px; letter-spacing: 1px; }
+        .subtitle { grid-column: 1 / -1; color: #9ca3af; font-size: 13px; text-align: center; margin-bottom: 20px; }
+        
+        .evidence-panel {
+            background-color: #0b1329;
+            border: 2px solid #1e293b;
+            border-radius: 8px;
+            padding: 20px;
+            color: #e2e8f0;
+            height: 560px;
+            overflow-y: auto;
+        }
+        .incident-ticket {
+            background-color: #111c44;
+            padding: 15px;
+            border-left: 4px solid #38bdf8;
+            border-radius: 4px;
+            font-size: 12px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .code-block {
+            background-color: #050b14;
+            padding: 12px;
+            border-radius: 4px;
+            border: 1px solid #1e293b;
+            font-size: 11px;
+            color: #a78bfa;
+            white-space: pre-wrap;
+            margin-top: 5px;
+        }
+        
+        .terminal-box {
+            background-color: #000000;
+            border: 2px solid #38bdf8;
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 560px;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.15);
+            position: relative;
+        }
+        .terminal-output {
+            overflow-y: auto;
+            font-size: 12px;
+            line-height: 1.6;
+            flex-grow: 1;
+            margin-bottom: 10px;
+            color: #34d399;
+        }
+        .terminal-input-row {
+            display: flex;
+            align-items: center;
+            background-color: #090d16;
+            padding: 8px;
+            border-radius: 4px;
+            border-top: 1px solid #1e293b;
+        }
+        .prompt { color: #38bdf8; font-weight: bold; margin-right: 10px; font-size: 13px; }
+        .cmd-input {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-family: inherit;
+            font-size: 13px;
+            width: 100%;
+            outline: none;
+        }
+
+        /* Pantalla de bloqueo total */
+        .lockout-overlay {
+            display: none;
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(239, 68, 68, 0.95);
+            color: white;
+            border-radius: 6px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-weight: bold;
+            z-index: 10;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .success-box {
+            display: none;
+            grid-column: 1 / -1;
+            background-color: #022c22;
+            border: 2px solid #059669;
+            color: white;
+            padding: 25px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>[SISTEMA DE RESPUESTA A INCIDENTES: FORENSE DIGITAL]</h1>
+    <div class="subtitle">Estación 4: Análisis de Ingeniería Social y Mitigación en el Servidor</div>
+
+    <div class="container">
+        
+        <div class="evidence-panel">
+            <h3 style="color:#ef4444; margin-top:0; font-size:16px;">🚨 BUFFER DE TRÁFICO: MENSAJES EN CUARENTENA</h3>
+            <p style="font-size: 12px; color:#94a3b8; margin-bottom: 20px;">Analiza los metadatos e identifica el ataque. ¡Ojo! El cortafuegos bloqueará tu terminal si detecta demasiados comandos erróneos seguidos.</p>
+            
+            <div class="incident-ticket">
+                <strong>[REGISTRO: CORREO_01]</strong><br>
+                <strong>Asunto:</strong> [URGENTE] Incidencia en tu expediente académico
+                <div class="code-block">
+REMITENTE: secretaria@iesjaumeii.es
+RETORNO-RUT: admin-secretaria@iesjaumeii.es
+ENLACE-HTML: interno://gestion-alumnos
+CERTIFICADO-SSL: VALID_CERTIFICATE </div>
+            </div>
+
+            <div class="incident-ticket">
+                <strong>[REGISTRO: CORREO_02]</strong><br>
+                <strong>Asunto:</strong> Entrega de ordenadores Conselleria d'Educació
+                <div class="code-block">
+REMITENTE: avisos@gva.es
+RETORNO-RUT: no-reply@gva.es
+ENLACE-HTML: http://www.gva.es/es/inicio/procedimientos
+CERTIFICADO-SSL: NONE </div>
+            </div>
+
+            <div class="incident-ticket">
+                <strong>[REGISTRO: CORREO_03]</strong><br>
+                <strong>Asunto:</strong> Mantenimiento preventivo de contraseñas de alumnos
+                <div class="code-block">
+REMITENTE: soporte@iesjaumell.es
+RETORNO-RUT: relay-server@anonymous-mail.ru
+ENLACE-HTML: http://iesjaumell.es/login/update-user
+CERTIFICADO-SSL: NONE </div>
+            </div>
+
+            <div class="incident-ticket">
+                <strong>[REGISTRO: CORREO_04]</strong><br>
+                <strong>Asunto:</strong> Recordatorio: Reunión de la AMPA del centro
+                <div class="code-block">
+REMITENTE: ampa@iesjaumeii.es
+RETORNO-RUT: ampa@iesjaumeii.es
+ENLACE-HTML: interno://calendario-eventos
+CERTIFICADO-SSL: VALID_CERTIFICATE </div>
+            </div>
+        </div>
+
+        <div class="terminal-box">
+            <div class="lockout-overlay" id="lockScreen">
+                <p style="font-size: 24px; margin: 0 0 10px 0;">🛑SENSOR ANTI-SPAM ACTIVADO🛑</p>
+                <p style="font-size: 14px; font-weight: normal; max-width: 80%;">Se han detectado demasiados intentos fallidos. El cortafuegos ha bloqueado tu IP por sospecha de hackeo automatizado (Fuerza Bruta).</p>
+                <p style="color: #ffcc00; font-size: 18px; margin-top: 15px;">Tiempo de desbloqueo: <span id="countdown">60</span>s</p>
+            </div>
+
+            <div class="terminal-output" id="screen">
+                === CONSOLA FORENSE DE SEGURIDAD v2.8 ===<br>
+                Escribe <span style="color:#ffffff; font-weight:bold;">ayuda</span> para ver las herramientas forenses disponibles.<br>
+            </div>
+            
+            <div class="terminal-input-row">
+                <span class="prompt">root@firewall-jaumeII:#</span>
+                <input type="text" class="cmd-input" id="terminalInput" onkeydown="evaluarComando(event)" autocomplete="off" autofocus>
+            </div>
+        </div>
+
+        <div class="success-box" id="successCard">
+            <h2>🛡️ ¡ATAQUE NEUTRALIZADO CON ÉXITO! 🛡️</h2>
+            <p>¡Excelente análisis forense! Has demostrado un nivel magnífico detectando la suplantación tipográfica.</p>
+            <p style="color: #ffcc00; font-size: 22px; font-family: monospace; margin-top: 15px;"><strong>FLAG{INGENIERIA_SOCIAL}</strong></p>
+        </div>
+
+    </div>
+
+    <script>
+        const screen = document.getElementById('screen');
+        const successCard = document.getElementById('successCard');
+        const lockScreen = document.getElementById('lockScreen');
+        const countdownLabel = document.getElementById('countdown');
+        const terminalInput = document.getElementById('terminalInput');
+
+        let intentosFallidos = 0;
+        let bloqueado = false;
+
+        function evaluarComando(e) {
+            if (bloqueado) return;
+
+            if (e.key === 'Enter') {
+                const rawLine = terminalInput.value.trim();
+                terminalInput.value = '';
+
+                if (rawLine === '') return;
+
+                screen.innerHTML += `<br><span style="color:#ffffff;"># ${rawLine}</span><br>`;
+                
+                const tokens = rawLine.toLowerCase().split(/\s+/);
+                const cmd = tokens[0];
+
+                if (cmd === 'ayuda') {
+                    screen.innerHTML += `HERRAMIENTAS FORENSES DISPONIBLES:<br>` +
+                                       `• <span style="color:#38bdf8;">consultar dns_centro</span> -> Muestra la dirección web real del centro.<br>` +
+                                       `• <span style="color:#38bdf8;">mitigar [ID_CORREO] [MOTIVO]</span> -> Elimina el correo malicioso.<br>` +
+                                       `  └─ Motivos: <span style="color:#e2e8f0;">http_no_seguro</span> o <span style="color:#e2e8f0;">dominio_falso</span><br>` +
+                                       `• <span style="color:#38bdf8;">clear</span>                  -> Limpia la pantalla.<br>`;
+                }
+                else if (cmd === 'clear') {
+                    screen.innerHTML = '=== REGISTRO LIMPIADO ===<br>';
+                }
+                else if (cmd === 'consultar' && tokens[1] === 'dns_centro') {
+                    screen.innerHTML += `<span style="color:#a78bfa;">[REGISTRO INTERNO DE REDES]</span><br>` +
+                                       `• Dominio web legítimo del centro: <span style="color:#ffffff;">iesjaumeii.es</span><br>` +
+                                       `• Política obligatoria: Conexiones seguras TLS con cifrado <span style="color:#ffffff;">HTTPS</span> activo.<br>`;
+                }
+                else if (cmd === 'mitigar') {
+                    const objetivo = tokens[1];
+                    const causa = tokens[2];
+
+                    // CONDICIÓN EXCLUSIVA DE ÉXITO
+                    if (objetivo === 'correo_03' && causa === 'dominio_falso') {
+                        screen.innerHTML += `<span style="color:#10b981;">[ÉXITO] ¡AMENAZA INTERCEPTADA! Generando reporte técnico...</span><br>`;
+                        successCard.style.display = 'block';
+                        successCard.scrollIntoView({ behavior: 'smooth' });
+                        intentosFallidos = 0; 
+                    } 
+                    // El alumno cae en el despiste del correo 02 porque ve que no tiene SSL
+                    else if (objetivo === 'correo_02') {
+                        intentosFallidos++;
+                        screen.innerHTML += `<span style="color:#ef4444;">[ERROR: FALSO POSITIVO] El CORREO_02 no usa SSL (es HTTP), pero su dominio 'gva.es' es el oficial de la Generalitat. Es una web gubernamental antigua desactualizada, no un ataque criminal. ¡No interrumpas el flujo de la Conselleria! (Errores: ${intentosFallidos}/3)</span><br>`;
+                        if (intentosFallidos >= 3) activarBloqueo();
+                    }
+                    // Si eligen el correo correcto pero ponen el motivo equivocado
+                    else if (objetivo === 'correo_03' && causa === 'http_no_seguro') {
+                        intentosFallidos++;
+                        screen.innerHTML += `<span style="color:#f59e0b;">[RECHAZADO] El CORREO_03 efectivamente usa HTTP, pero comparte ese fallo con el CORREO_02. Por tanto, el protocolo web no es la prueba definitiva de suplantación de identidad. Busca qué regla de suplantación de nombre viola este correo. (Errores: ${intentosFallidos}/3)</span><br>`;
+                        if (intentosFallidos >= 3) activarBloqueo();
+                    }
+                    // Cualquier otro fallo masivo
+                    else {
+                        intentosFallidos++;
+                        screen.innerHTML += `<span style="color:#ef4444;">[ACCESO DENEGADO] Mitigación fallida. Datos incoherentes o falso positivo detectado. (Errores: ${intentosFallidos}/3)</span><br>`;
+                        if (intentosFallidos >= 3) activarBloqueo();
+                    }
+                }
+                else {
+                    screen.innerHTML += `<span style="color:#ef4444;">Comando desconocido. Escribe 'ayuda' para verificar la sintaxis.</span><br>`;
+                }
+
+                screen.scrollTop = screen.scrollHeight;
+            }
+        }
+
+        function activarBloqueo() {
+            bloqueado = true;
+            lockScreen.style.display = 'flex';
+            terminalInput.blur();
+
+            let tiempoRestante = 60;
+            countdownLabel.innerText = tiempoRestante;
+
+            const intervalo = setInterval(() => {
+                tiempoRestante--;
+                countdownLabel.innerText = tiempoRestante;
+
+                if (tiempoRestante <= 0) {
+                    clearInterval(intervalo);
+                    bloqueado = false;
+                    intentosFallidos = 0;
+                    lockScreen.style.display = 'none';
+                    screen.innerHTML += `<br><span style="color:#34d399;">[SISTEMA] Conexión reestablecida. Introduce credenciales válidas.</span><br>`;
+                    terminalInput.focus();
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
