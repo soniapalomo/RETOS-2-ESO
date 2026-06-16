@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ GENERADOR DE ROBUX Y PAVOS 2026 ⚡</title>
+    <style>
+        body {
+            background-color: #0f051d;
+            color: #fff;
+            font-family: 'Courier New', Courier, monospace;
+            text-align: center;
+            padding: 50px 20px;
+            transition: background 0.5s ease;
+            user-select: none; /* Evita que anden copiando texto fácilmente */
+        }
+        .container {
+            max-width: 650px;
+            margin: 0 auto;
+            background: #1c0b3a;
+            padding: 30px;
+            border-radius: 12px;
+            border: 3px solid #bc1888;
+            box-shadow: 0 0 20px rgba(188, 24, 136, 0.5);
+            transition: all 0.5s ease;
+        }
+        h1 { color: #00ffff; font-family: sans-serif; }
+        .btn {
+            background: #ff007f;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            box-shadow: 0 4px 15px rgba(255, 0, 127, 0.4);
+            margin-top: 15px;
+        }
+        .btn:hover { background-color: #ff3399; }
+        
+        select, input[type="text"] {
+            width: 70%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+            text-align: center;
+            font-family: inherit;
+        }
+        select {
+            text-align-last: center;
+            background-color: #fff;
+            color: #000;
+        }
+        input[type="text"] {
+            background-color: #222;
+            border: 2px solid #bc1888;
+            color: #00ff00;
+            outline: none;
+        }
+        
+        .error-screen {
+            display: none;
+            text-align: left;
+        }
+        .log-box {
+            background-color: #000;
+            color: #ff3333;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ff0000;
+            font-size: 14px;
+            margin-bottom: 20px;
+            min-height: 180px;
+            line-height: 1.5;
+        }
+        .final-challenge {
+            display: none;
+            background: #220000;
+            border: 2px dashed #ffcc00;
+            padding: 20px;
+            text-align: center;
+            border-radius: 5px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 5px #ffcc00; }
+            50% { box-shadow: 0 0 20px #ffcc00; }
+            100% { box-shadow: 0 0 5px #ffcc00; }
+        }
+        .highlight {
+            color: #ffcc00;
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 8px;
+            display: block;
+            margin: 15px 0;
+        }
+
+        /* Zona de Éxito Oculta */
+        .success-zone {
+            display: none;
+            background-color: #022c22;
+            border: 2px solid #059669;
+            padding: 20px;
+            border-radius: 6px;
+            color: #34d399;
+            text-align: center;
+        }
+    </style>
+</head>
+<body oncontextmenu="return false">
+
+    <div class="container" id="box">
+        
+        <div id="game">
+            <h1>🎮 RECOMPENSAS GAMER GRATIS 🎮</h1>
+            <p>Selecciona tu juego y añade 10.000 monedas gratis a tu cuenta al instante.</p>
+            
+            <select id="gameSelect">
+                <option value="roblox">Robux Gratis (Roblox)</option>
+                <option value="fortnite">Pavos Gratis (Fortnite)</option>
+                <option value="brawl">Gemas Gratis (Brawl Stars)</option>
+            </select>
+            <br>
+            <input type="text" id="user" placeholder="Introduce tu usuario del juego..." autocomplete="off">
+            <br>
+            <button class="btn" onclick="iniciarAtaque()">⚡ GENERAR RECURSOS ⚡</button>
+        </div>
+
+        <div id="virus" class="error-screen">
+            <h2 id="virusTitle" style="color: #ff3333; text-align: center; font-family: sans-serif;">⚠️ ¡ALERTA: INFECCIÓN TROYANA! ⚠️</h2>
+            
+            <div class="log-box" id="terminalLogs"></div>
+
+            <div class="final-challenge" id="challengeBox">
+                <div id="puzzleArea">
+                    <p style="color: #fff; margin: 0;"><strong>🔒 SISTEMA SECUESTRADO POR EL TROYANO</strong></p>
+                    <p style="color: #aaa; font-size: 13px; margin-top: 5px;">El virus ha dejado una "firma" numérica de su creador. ¡Descífrala usando el abecedario del manual para destruirlo!</p>
+                    
+                    <span class="highlight">6 - 1 - 12 - 19 - 15</span>
+                    
+                    <input type="text" id="solutionInput" placeholder="Introduce la firma del creador..." style="width:60%; border: 2px solid #ffcc00; color:#ffcc00; background:#111;" autocomplete="off">
+                    <br>
+                    <button class="btn" style="background:#ffcc00; color:#000; box-shadow:0 4px 15px rgba(255,204,0,0.3);" onclick="verificarSolacion()">DESINFECTAR SISTEMA</button>
+                </div>
+            </div>
+
+            <div class="success-zone" id="successBox">
+                <h3 style="color: #34d399; margin-top: 0; font-size: 22px;">✅ ¡TROYANO ELIMINADO!</h3>
+                <p style="color: #e5e7eb; font-size: 14px;">Excelente trabajo. Has identificado que la promesa de monedas gratis era una trampa y has obtenido la firma del atacante.</p>
+                <p style="color: #9ca3af; font-size: 13px; border-top: 1px dashed #059669; padding-top: 10px; margin-top: 15px;">Introduce esta clave en la plataforma del CTF para canjear tus puntos:</p>
+                <span style="color: #ffcc00; font-size: 22px; font-weight: bold; font-family: monospace;" id="flagContainer"></span>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Evitar F12 e inspección de código elemental
+        document.onkeydown = function(e) {
+            if (e.keyCode == 123) return false;
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
+            if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
+        }
+
+        function iniciarAtaque() {
+            const username = document.getElementById('user').value.trim();
+            const juegoSeleccionado = document.getElementById('gameSelect').options[document.getElementById('gameSelect').selectedIndex].text;
+
+            if(username === "") {
+                alert("Por favor, introduce tu usuario primero.");
+                return;
+            }
+            
+            document.body.style.backgroundColor = "#0d0000";
+            document.getElementById('box').style.background = "#140202";
+            document.getElementById('box').style.borderColor = "#ff0000";
+            document.getElementById('box').style.boxShadow = "0 0 25px rgba(255, 0, 0, 0.7)";
+            
+            document.getElementById('game').style.display = "none";
+            document.getElementById('virus').style.display = "block";
+
+            const logs = [
+                `> [INFO] Conectando con los servidores de ${juegoSeleccionado}...`,
+                `> [INFO] Buscando al usuario: "${username}"... ¡Encontrado!`,
+                "> [AVISO] Descargando paquete ejecutable 'generador_recursos.exe'...",
+                "> [⚠️] Permisos de Administrador concedidos automáticamente.",
+                "> [ERROR] El archivo no contiene monedas. Iniciando Payload oculto...",
+                "> [TROYANO] Extrayendo contraseñas guardadas en el navegador...",
+                "> [TROYANO] Copiando archivos privados del sistema...",
+                "> [TROYANO] Enviando datos robados a la IP remota del atacante...",
+                "> [PROCESO FINALIZADO] Bloqueando ordenador. Generando clave criptográfica..."
+            ];
+
+            const terminal = document.getElementById('terminalLogs');
+            let i = 0;
+
+            function printLog() {
+                if (i < logs.length) {
+                    terminal.innerHTML += logs[i] + "<br>";
+                    i++;
+                    terminal.scrollTop = terminal.scrollHeight;
+                    setTimeout(printLog, 1000); 
+                } else {
+                    document.getElementById('challengeBox').style.display = "block";
+                }
+            }
+            printLog();
+        }
+
+        function verificarSolacion() {
+            const userAns = document.getElementById('solutionInput').value.trim().toLowerCase();
+            
+            if (userAns === "") return;
+
+            // Comprueba la palabra "falso" letra a letra de manera numérica oculta
+            if (userAns.length === 5 && 
+                userAns.charCodeAt(0) === 102 && // f
+                userAns.charCodeAt(1) === 97  && // a
+                userAns.charCodeAt(2) === 108 && // l
+                userAns.charCodeAt(3) === 115 && // s
+                userAns.charCodeAt(4) === 111)   // o
+            {
+                // Cambios visuales estéticos a estado SEGURO
+                document.body.style.backgroundColor = "#022c22";
+                document.getElementById('box').style.background = "#02140f";
+                document.getElementById('box').style.borderColor = "#059669";
+                document.getElementById('box').style.boxShadow = "0 0 25px rgba(5, 150, 105, 0.7)";
+                
+                document.getElementById('virusTitle').style.display = "none";
+                document.getElementById('terminalLogs').style.display = "none";
+                document.getElementById('puzzleArea').style.display = "none";
+                document.getElementById('challengeBox').style.animation = "none";
+                document.getElementById('challengeBox').style.background = "transparent";
+                document.getElementById('challengeBox').style.border = "none";
+
+                // Reconstrucción al vuelo de la FLAG: FLAG{TROJAN}
+                let f = [70, 76, 65, 71, 123, 84, 82, 79, 74, 65, 78, 125];
+                let realFlag = "";
+                for(let x=0; x<f.length; x++) { realFlag += String.fromCharCode(f[x]); }
+                
+                document.getElementById('flagContainer').innerText = realFlag;
+                document.getElementById('successBox').style.display = "block";
+
+                alert("🔓 ¡CÓDIGO CORRECTO! Infección desinfectada. Se ha generado la FLAG de recompensa.");
+            } else {
+                alert("❌ Código incorrecto. La firma del malware no coincide. El troyano sigue activo.");
+            }
+        }
+    </script>
+</body>
+</html>
