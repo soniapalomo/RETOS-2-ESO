@@ -6,24 +6,25 @@
     <title>⚡ GENERADOR DE ROBUX Y PAVOS 2026 ⚡</title>
     <style>
         body {
-            background-color: #0f051d;
-            color: #fff;
-            font-family: 'Courier New', Courier, monospace;
-            text-align: center;
-            padding: 50px 20px;
-            transition: background 0.5s ease;
-            user-select: none; /* Evita que anden copiando texto fácilmente */
-        }
-        .container {
-            max-width: 650px;
-            margin: 0 auto;
-            background: #1c0b3a;
-            padding: 30px;
-            border-radius: 12px;
-            border: 3px solid #bc1888;
-            box-shadow: 0 0 20px rgba(188, 24, 136, 0.5);
-            transition: all 0.5s ease;
-        }
+    background-color: #0f051d;
+    color: #fff;
+    font-family: 'Courier New', Courier, monospace;
+    text-align: center;
+    padding: 25px 20px;
+    transition: background 0.5s ease;
+    user-select: none;
+}
+
+.container {
+    max-width: 650px;
+    margin: 0 auto;
+    background: #1c0b3a;
+    padding: 20px 30px;
+    border-radius: 12px;
+    border: 3px solid #bc1888;
+    box-shadow: 0 0 20px rgba(188, 24, 136, 0.5);
+    transition: all 0.5s ease;
+}
         h1 { color: #00ffff; font-family: sans-serif; }
         .btn {
             background: #ff007f;
@@ -217,7 +218,7 @@
             
             if (userAns === "") return;
 
-            // Comprueba la palabra "falso" letra a letra de manera numérica oculta
+            
             if (userAns.length === 5 && 
                 userAns.charCodeAt(0) === 102 && // f
                 userAns.charCodeAt(1) === 97  && // a
@@ -238,7 +239,7 @@
                 document.getElementById('challengeBox').style.background = "transparent";
                 document.getElementById('challengeBox').style.border = "none";
 
-                // Reconstrucción al vuelo de la FLAG: FLAG{TROJAN}
+               
                 let f = [70, 76, 65, 71, 123, 84, 82, 79, 74, 65, 78, 125];
                 let realFlag = "";
                 for(let x=0; x<f.length; x++) { realFlag += String.fromCharCode(f[x]); }
