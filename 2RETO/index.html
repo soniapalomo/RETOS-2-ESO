@@ -264,11 +264,13 @@ CERTIFICADO-SSL: VALID_CERTIFICATE </div>
 
         let intentosFallidos = 0;
         let bloqueado = false;
-        const AVISO_ALTURA = 420; // cuando la consola llega a esta altura, avisa
+                const AVISO_ALTURA = 420;
+        let avisoMostrado = false;
 
         function comprobarLlenado() {
-            if (screen.scrollHeight > AVISO_ALTURA) {
+            if (screen.scrollHeight > AVISO_ALTURA && !avisoMostrado) {
                 screen.innerHTML += `<br><span style="color:#facc15;">⚠ La consola está llena. Escribe <strong>clear</strong> para limpiarla y seguir viendo los resultados.</span><br>`;
+                avisoMostrado = true;
             }
             screen.scrollTop = screen.scrollHeight;
         }
@@ -300,8 +302,9 @@ CERTIFICADO-SSL: VALID_CERTIFICATE </div>
                                        `  └─ Motivos: <span style="color:#e2e8f0;">http_no_seguro</span> o <span style="color:#e2e8f0;">dominio_falso</span><br>` +
                                        `• <span style="color:#38bdf8;">clear</span>                   -> Limpia la pantalla.<br>`;
                 }
-                else if (cmd === 'clear') {
+                            else if (cmd === 'clear') {
                     screen.innerHTML = '=== REGISTRO LIMPIADO ===<br>';
+                    avisoMostrado = false;
                 }
                 else if (cmd === 'consultar' && tokens[1] === 'dns_centro') {
                     screen.innerHTML += `<span style="color:#a78bfa;">[REGISTRO INTERNO DE REDES]</span><br>` +
