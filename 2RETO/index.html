@@ -264,16 +264,7 @@ CERTIFICADO-SSL: VALID_CERTIFICATE </div>
 
         let intentosFallidos = 0;
         let bloqueado = false;
-                const AVISO_ALTURA = 420;
-        let avisoMostrado = false;
-
-        function comprobarLlenado() {
-            if (screen.scrollHeight > AVISO_ALTURA && !avisoMostrado) {
-                screen.innerHTML += `<br><span style="color:#facc15;">⚠ La consola está llena. Escribe <strong>clear</strong> para limpiarla y seguir viendo los resultados.</span><br>`;
-                avisoMostrado = true;
-            }
-            screen.scrollTop = screen.scrollHeight;
-        }
+      
         const targetHash = "Y29ycmVvXzAzIGRvbWluaW9fZmFsc28=";      // correo_03 dominio_falso
         const fallbackHash1 = "Y29ycmVvXzAyIGh0dHBfbm9fc2VndXJv";   // correo_02 http_no_seguro
         const fallbackHash2 = "Y29ycmVvXzAzIGh0dHBfbm9fc2VndXJv";   // correo_03 http_no_seguro
@@ -304,7 +295,7 @@ CERTIFICADO-SSL: VALID_CERTIFICATE </div>
                 }
                             else if (cmd === 'clear') {
                     screen.innerHTML = '=== REGISTRO LIMPIADO ===<br>';
-                    avisoMostrado = false;
+                  
                 }
                 else if (cmd === 'consultar' && tokens[1] === 'dns_centro') {
                     screen.innerHTML += `<span style="color:#a78bfa;">[REGISTRO INTERNO DE REDES]</span><br>` +
@@ -344,7 +335,7 @@ CERTIFICADO-SSL: VALID_CERTIFICATE </div>
                 else {
                     screen.innerHTML += `<span style="color:#ef4444;">Comando desconocido. Escribe 'ayuda' para verificar la sintaxis.</span><br>`;
                 }
-                comprobarLlenado();
+              
                 if (window.notifyNewOutput) window.notifyNewOutput();
             }
         }
