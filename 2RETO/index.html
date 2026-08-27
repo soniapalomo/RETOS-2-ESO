@@ -263,13 +263,29 @@ CERTIFICADO-SSL: VALID_CERTIFICATE </div>
 
         let intentosFallidos = 0;
         let bloqueado = false;
+const MAX_ALTURA_CONSOLA = 380; // px que puede ocupar la consola antes de recortar
 
-        // Cifrado ciego en Base64 de las respuestas posibles para que no se puedan leer con F12
+        function limitarConsola() {
+            const marcador = '[... mensajes antiguos ocultados ...]';
+            while (screen.scrollHeight > MAX_ALTURA_CONSOLA) {
+                let lineas = screen.innerHTML.split('<br>');
+
+                if (lineas[0].indexOf(marcador) !== -1) {
+                    lineas.shift();
+                }
+
+                if (lineas.length <= 2) break;
+
+                lineas.shift();
+                screen.innerHTML = '<span style="color:#64748b;">' + marcador + '</span><br>' + lineas.join('<br>');
+            }
+        }
+     
         const targetHash = "Y29ycmVvXzAzIGRvbWluaW9fZmFsc28=";      // correo_03 dominio_falso
         const fallbackHash1 = "Y29ycmVvXzAyIGh0dHBfbm9fc2VndXJv";   // correo_02 http_no_seguro
         const fallbackHash2 = "Y29ycmVvXzAzIGh0dHBfbm9fc2VndXJv";   // correo_03 http_no_seguro
         
-        // Flag oculta en Base64 de forma ultra limpia
+ 
         const encodedFlag = "RkxBR3tJTkdFTklFUklBX1NPQ0lBTH0="; 
 
         function evaluarComando(e) {
@@ -334,7 +350,7 @@ CERTIFICADO-SSL: VALID_CERTIFICATE </div>
                 else {
                     screen.innerHTML += `<span style="color:#ef4444;">Comando desconocido. Escribe 'ayuda' para verificar la sintaxis.</span><br>`;
                 }
-
+limitarConsola();
                 if (window.notifyNewOutput) window.notifyNewOutput();
             }
         }
