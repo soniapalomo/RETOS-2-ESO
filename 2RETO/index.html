@@ -28,7 +28,8 @@
     border-radius: 8px;
     padding: 20px;
     color: #e2e8f0;
-    /* antes: height: 560px; overflow-y: auto; */
+    height: 560px;
+    overflow-y: auto;
 }
         .incident-ticket {
             background-color: #111c44;
@@ -50,7 +51,7 @@
             margin-top: 5px;
         }
         
-  .terminal-box {
+.terminal-box {
     background-color: #000000;
     border: 2px solid #38bdf8;
     border-radius: 8px;
@@ -58,18 +59,18 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    min-height: 560px;
+    height: 560px;
     box-shadow: 0 0 20px rgba(56, 189, 248, 0.15);
     position: relative;
 }
         .terminal-output {
-            
-            font-size: 12px;
-            line-height: 1.6;
-            flex-grow: 1;
-            margin-bottom: 10px;
-            color: #34d399;
-        }
+    overflow-y: auto;
+    font-size: 12px;
+    line-height: 1.6;
+    flex-grow: 1;
+    margin-bottom: 10px;
+    color: #34d399;
+}
         .terminal-input-row {
             display: flex;
             align-items: center;
@@ -263,24 +264,14 @@ CERTIFICADO-SSL: VALID_CERTIFICATE </div>
 
         let intentosFallidos = 0;
         let bloqueado = false;
-const MAX_ALTURA_CONSOLA = 380; // px que puede ocupar la consola antes de recortar
+        const AVISO_ALTURA = 420; // cuando la consola llega a esta altura, avisa
 
-        function limitarConsola() {
-            const marcador = '[... mensajes antiguos ocultados ...]';
-            while (screen.scrollHeight > MAX_ALTURA_CONSOLA) {
-                let lineas = screen.innerHTML.split('<br>');
-
-                if (lineas[0].indexOf(marcador) !== -1) {
-                    lineas.shift();
-                }
-
-                if (lineas.length <= 2) break;
-
-                lineas.shift();
-                screen.innerHTML = '<span style="color:#64748b;">' + marcador + '</span><br>' + lineas.join('<br>');
+        function comprobarLlenado() {
+            if (screen.scrollHeight > AVISO_ALTURA) {
+                screen.innerHTML += `<br><span style="color:#facc15;">⚠ La consola está llena. Escribe <strong>clear</strong> para limpiarla y seguir viendo los resultados.</span><br>`;
             }
+            screen.scrollTop = screen.scrollHeight;
         }
-     
         const targetHash = "Y29ycmVvXzAzIGRvbWluaW9fZmFsc28=";      // correo_03 dominio_falso
         const fallbackHash1 = "Y29ycmVvXzAyIGh0dHBfbm9fc2VndXJv";   // correo_02 http_no_seguro
         const fallbackHash2 = "Y29ycmVvXzAzIGh0dHBfbm9fc2VndXJv";   // correo_03 http_no_seguro
@@ -350,7 +341,7 @@ const MAX_ALTURA_CONSOLA = 380; // px que puede ocupar la consola antes de recor
                 else {
                     screen.innerHTML += `<span style="color:#ef4444;">Comando desconocido. Escribe 'ayuda' para verificar la sintaxis.</span><br>`;
                 }
-limitarConsola();
+                comprobarLlenado();
                 if (window.notifyNewOutput) window.notifyNewOutput();
             }
         }
