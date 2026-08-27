@@ -119,7 +119,7 @@
         }
     </style>
 </head>
-    <script>
+   <script>
 (function () {
   if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
@@ -145,10 +145,22 @@
     } catch (e) {}
   }
 
+  var reportTimeout;
+  function scheduleReport() {
+    clearTimeout(reportTimeout);
+    reportTimeout = setTimeout(reportHeight, 50);
+  }
+
   forceScrollTop();
   window.addEventListener('pageshow', forceScrollTop);
   window.addEventListener('load', reportHeight);
   window.addEventListener('resize', reportHeight);
+
+  document.addEventListener('DOMContentLoaded', function () {
+    reportHeight();
+    var observer = new MutationObserver(scheduleReport);
+    observer.observe(document.body, { childList: true, subtree: true, attributes: true });
+  });
 })();
 </script>
 <body oncontextmenu="return false">
