@@ -122,19 +122,6 @@
 </head>
 <script>
 (function () {
-  if ('scrollRestoration' in history) {
-    history.scrollRestoration = 'manual';
-  }
-
-  function forceScrollTop() {
-    window.scrollTo(0, 0);
-    try {
-      if (window.parent && window.parent !== window) {
-        window.parent.postMessage({ ciberretosScrollTop: true }, '*');
-      }
-    } catch (e) {}
-  }
-
   function reportHeight() {
     try {
       if (window.parent && window.parent !== window) {
@@ -152,8 +139,6 @@
     reportTimeout = setTimeout(reportHeight, 50);
   }
 
-  forceScrollTop();
-  window.addEventListener('pageshow', forceScrollTop);
   window.addEventListener('load', reportHeight);
   window.addEventListener('resize', reportHeight);
 
